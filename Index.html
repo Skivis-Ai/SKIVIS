@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skivis | AI Skin & Eye Care</title>
+<button type="button" onclick="init()">Start</button>
+<div id="webcam-container"></div>
+<div id="label-container"></div>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+<script type="text/javascript"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="settings-wrapper">
+    <div id="settings-btn" onclick="toggleSettings()">⚙️</div>
+    <div id="settings-menu">
+        <div class="setting-item">
+            <label id="lbl-mode">Theme</label>
+            <button class="action" onclick="toggleDarkMode()" id="btn-darkmode">Toggle Dark Mode</button>
+        </div>
+        <div class="setting-item">
+            <label id="lbl-lang">Language</label>
+            <select onchange="changeLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी (Hindi)</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="bg-slideshow">
+    <div class="bg-slide active" style="background-image:url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1920&q=80')"></div>
+    <div class="bg-slide" style="background-image:url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1920&q=80')"></div>
+</div>
+<div class="bg-overlay"></div>
+
+<div class="container">
+
+<div class="hero">
+<h1 id="hero-title">SKIVIS</h1>
+<p id="hero-desc">AI-Powered Skin & Eye Care Platform<br>Scan • Record • Understand • Care</p>
+</div>
+
+<div class="grid">
+<div id="btn-appt" onclick="handleGridAction('Appointment')">🏥 Appointment</div>
+<div id="btn-cons" onclick="handleGridAction('Consultation')">💻 Online Consultation</div>
+<div id="btn-presc" onclick="handleGridAction('Prescription')">📄 Upload Prescription</div>
+</div>
+
+<div class="card">
+<h3 id="card-cam-title">Live AI Camera Scanner</h3>
+<button type="button" class="action" style="width: auto; margin-top: 10px; margin-bottom: 10px;" onclick="init()" id="btn-start-scan">Start Live Scan</button>
+<div id="webcam-container"></div>
+<div id="label-container" style="margin-top: 15px; font-weight: bold;"></div>
+<div class="recording" id="lbl-recording">● AI Analysis Active</div>
+</div>
+
+<div class="card" id="upload">
+<h3 id="card-up-title">Upload Image for AI Analysis</h3>
+<p style="font-size:.9rem;color:#555" id="card-up-desc">
+Please upload a clear image and describe the issue for better accuracy.
+</p>
+
+<label><strong id="lbl-desc">Describe Your Issue</strong></label>
+<textarea id="txt-area" placeholder="Example: redness, itching, swelling, blurry vision..."></textarea>
+
+<label><strong id="lbl-select">Select Image</strong></label>
+<input type="file" id="file-input" accept="image/*">
+
+<button class="action" id="btn-analyze" onclick="runAnalysis()">Analyze Image</button>
+
+<div id="analysis-result">
+    <strong id="res-title">AI Analysis Result:</strong>
+    <p id="res-content"></p>
+    <small style="color:red">* Disclaimer: This is an AI suggestion. Consult a doctor.</small>
+</div>
+</div>
+
+<footer id="footer-text">
+© 2026 Skivis • AI Health Prototype • Always consult a doctor
+</footer>
+
+</div>
+
+<div id="chat-box">
+<div class="chat-header">Derma-AI bot</div>
+<div class="chat-body" id="chat-body">
+<div class="msg bot" id="chat-welcome">Hello! How can I help you today?</div>
+</div>
+<div class="chat-input-area">
+    <input type="text" id="chat-user-input" placeholder="Type here...">
+    <button class="action" onclick="sendChatMsg()">Send</button>
+</div>
+</div>
+
+<div id="chat-btn" onclick="toggleChat()">💬</div>
+
+<script src="script.js"></script>
+</body>
+</html>
